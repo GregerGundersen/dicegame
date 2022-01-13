@@ -5,20 +5,27 @@ import { useState } from "react";
 function App() {
   const [p1Total, setP1Total] = useState(0);
   const [p2Total, setP2Total] = useState(0);
+  const [decideTurn, setTurn] = useState(true);
 
   const rollerFunction = () => {
-    const dice1 = Math.floor(Math.random() * 6 + 1);
-    const dice2 = Math.floor(Math.random() * 6 + 1);
+    if (decideTurn) {
+      const dice1 = Math.floor(Math.random() * 6 + 1);
 
-    if (dice1 > 1) {
-      setP1Total(p1Total + dice1);
-    } else {
-      setP1Total(p1Total - Math.floor(Math.random() * 9 + 1));
-    }
-    if (dice2 > 1) {
-      setP2Total(p2Total + dice2);
-    } else {
-      setP2Total(p2Total - Math.floor(Math.random() * 9 + 1));
+      if (dice1 > 1) {
+        setP1Total(p1Total + dice1);
+      } else {
+        setP1Total(p1Total - Math.floor(Math.random() * 9 + 1));
+      }
+      setTurn(false);
+    } else if (!decideTurn) {
+      const dice2 = Math.floor(Math.random() * 6 + 1);
+
+      if (dice2 > 1) {
+        setP2Total(p2Total + dice2);
+      } else {
+        setP2Total(p2Total - Math.floor(Math.random() * 9 + 1));
+      }
+      setTurn(true);
     }
   };
 
@@ -51,6 +58,7 @@ function App() {
           ? "Player 2 is the winner"
           : ""}
       </div>
+
       <button onClick={rollerFunction} className="rolldice" type="button">
         Roll
       </button>
